@@ -1,0 +1,31 @@
+<div data-ng-controller="LocalController" layout="column" data-ng-init="findOne()" ng-cloak>
+<h1 class="md-headline">Crear local</h1>
+  <md-content layout-padding>
+    <form data-ng-submit="editLocalForm.$valid && update()" name="editLocalForm" novalidate>
+      <md-input-container class="md-block">
+        <label>Ubicación</label>
+        <input required name="ubicacion" ng-model="local.ubicacion" />
+        <div ng-messages="editLocalForm.ubicacion.$error">
+            <div ng-message="required">Este campo es obligatorio</div>
+        </div>
+      </md-input-container>
+      <md-input-container class="md-block">
+        <label>Capacidad</label>
+        <input type="number" required name="capacidad" ng-model="local.capacidad" />
+        <div ng-messages="editLocalForm.capacidad.$error">
+            <div ng-message="required">Este campo es obligatorio</div>
+            <div ng-message="number">Este campo solo admite valores numéricos</div>
+        </div>
+      </md-input-container>
+      <md-input-container class="md-block">
+        <md-checkbox ng-model="local.disponibilidad" aria-label="Disponibilidad">
+            Disponibilidad
+          </md-checkbox>
+      </md-input-container>
+      <div layout="row" style="margin-top: 30px;">
+          <md-button class="md-raised" type="submit">Enviar</md-button>
+          <md-button class="md-raised" href="/#!/locales/{{local.id}}">Cancelar</md-button>
+      </div>
+    </form>
+  </md-content>
+</div>

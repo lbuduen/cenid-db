@@ -1,0 +1,94 @@
+<div data-ng-controller="PruebaController as pc" layout="column" ng-cloak data-ng-init="loadHabilidades(); find(); findLocales(); shuffle_est=true">
+  <md-content>
+    <form data-ng-submit="createPruebaForm.$valid && create()" name="createPruebaForm" novalidate>
+    <h1 class="md-headline">Crear prueba</h1>
+      <md-tabs md-dynamic-height md-border-bottom>
+        <md-tab label="Prueba">
+          <md-content class="md-padding">
+
+            <md-input-container class="md-block">
+              <label>Título</label>
+              <input required name="titulo" ng-model="titulo">
+              <div ng-messages="createPruebaForm.titulo.$error">
+                <div ng-message="required">Este campo es obligatorio</div>
+              </div>
+            </md-input-container>
+
+            <md-select placeholder="Habilidad(es)" ng-model="habilidades" style="min-width: 200px;" multiple>
+              <md-option ng-value="hab.id" ng-repeat="hab in habilidad_select">{{hab.nombre}}</md-option>
+            </md-select>
+
+            <md-select placeholder="Nivel(es)" ng-model="niveles" md-on-open="loadNiveles()" style="min-width: 200px;" multiple>
+              <md-option ng-value="nivel.id" ng-repeat="nivel in nivel_select">{{nivel.nombre}}</md-option>
+            </md-select>
+
+            <div style="margin-bottom:45px">
+              <md-datepicker name="fecha" ng-model="fecha" md-placeholder="Fecha" required></md-datepicker>
+              <div class="validation-messages" ng-messages="createPruebaForm.fecha.$error">
+                <div ng-message="valid">Formato de fecha incorrecto</div>
+                <div ng-message="required">Este campo es obligatorio</div>
+              </div>
+            </div>
+
+            <md-input-container class="md-block">
+              <label>Código</label>
+              <input required name="codigo" ng-model="codigo">
+            </md-input-container>
+
+          </md-content>
+        </md-tab>
+
+        <md-tab label="Participantes ({{countSelected()}})">
+
+          <md-content class="md-padding">
+            <md-input-container class="md-block">
+              <label>Locales</label>
+              <md-select ng-model="locales_prueba" name="locales_prueba" multiple required>
+                <md-option ng-value="local" ng-repeat="local in locales | filter: {disponibilidad: 1 }">{{local.ubicacion}} ({{local.capacidad}})</md-option>
+              </md-select>
+              <div ng-messages="createPruebaForm.locales_prueba.$error">
+                <div ng-message="required">Este campo es obligatorio</div>
+              </div>
+            </md-input-container>
+
+            <div style="margin:45px 0px 20px">
+              <md-checkbox aria-label="Select All" ng-checked="isChecked()" md-indeterminate="isIndeterminate()" ng-click="toggleAll()">Seleccionar todos</md-checkbox>
+              <span flex></span>
+              <md-checkbox ng-model="shuffle_est" aria-label="shuffle" flex>
+                Ubicar los estudiantes aleatoriamente
+              </md-checkbox>
+            </div>
+
+            <table ng-table="pc.tableParticipants" class="table table-striped">
+              <colgroup>
+                <col width="5%" />
+                <col width="30%" />
+                <col width="15%" />
+                <col width="20%" />
+                <col width="30%" />
+              </colgroup>
+              <tr ng-repeat="user in $data">
+                <td style="text-align: center;">
+                  <md-checkbox ng-checked="exists(user, selected)" ng-click="toggle(user, selected)" aria-label="estudiante {{user.idestudiante}}"></md-checkbox>
+                </td>
+                <td title="'Nombre completo'" filter="{ nombre: 'text'}" sortable="'nombre'">
+                  {{user.nombre + " " + user.apellidos}}</td>
+                <td title="'Nivel diagn.'" filter="{ nivel_diagnosticado: 'text'}" sortable="'nivel_diagnosticado'" style="text-align: center;">
+                  {{user.nivel_diagnosticado}}</td>
+                <td title="'Email'" filter="{ email: 'text'}" sortable="'email'">
+                  {{user.email}}</td>
+                <td title="'Área'" filter="{ area: 'text'}" sortable="'area'">
+                  {{user.area}}</td>
+              </tr>
+            </table>
+
+          </md-content>
+        </md-tab>
+      </md-tabs>
+      <div layout="row" style="margin-top: 30px;">
+        <md-button class="md-raised" type="submit">Enviar</md-button>
+        <md-button class="md-raised" href="/#!/pruebas/">Cancelar</md-button>
+      </div>
+    </form>
+  </md-content>
+</div>

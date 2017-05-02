@@ -1,0 +1,46 @@
+<h3>Niveles</h3>
+
+<table data-ng-controller="NivelController as nc" ng-table="nc.tableParams" export-csv="csv" class="table table-condensed table-bordered table-striped">
+  <colgroup>
+    <col width="20%" />
+    <col width="65%" />
+    <col width="15%" />
+  </colgroup>
+    <tr ng-repeat="nivel in $data">
+        <td title="'Nombre'" filter="{ nombre: 'text'}" sortable="'nombre'">
+            {{nivel.nombre}}</td>
+        <td title="'Descripción'">
+            {{nivel.descripcion}}</td>
+        <td style="text-align: center;">
+          <a ng-href="/#!/niveles/{{nivel.id}}">
+            <md-tooltip md-direction="top">Ver detalles del nivel</md-tooltip>
+            <md-icon md-svg-icon="/img/icons/ic_details_black_24px.svg" aria-label="Detalles" style="color:#f00;"></md-icon>
+          </a>
+          <a ng-href="/#!/niveles/{{nivel.id}}/edit">
+            <md-tooltip md-direction="top">Editar nivel</md-tooltip>
+            <md-icon md-svg-icon="/img/icons/ic_mode_edit_black_24px.svg" aria-label="Editar nivel" style="color:#f00;"></md-icon>
+          </a>
+          <md-icon md-svg-icon="/img/icons/ic_delete_black_24px.svg" ng-click="nc.del(nivel)" aria-label="Eliminar nivel" style="color:#f00;">
+            <md-tooltip md-direction="top">Eliminar nivel</md-tooltip>
+          </md-icon>
+        </td>
+    </tr>
+</table>
+<md-fab-speed-dial md-direction="up" md-open="false" class="md-fling">
+  <md-fab-trigger>
+    <md-button class="md-fab md-raised" aria-label="Añadir">
+        <md-tooltip md-direction="right">Niveles</md-tooltip>
+        <md-icon md-svg-icon="/img/icons/ic_poll_black_24px.svg"></md-icon>
+    </md-button>
+  </md-fab-trigger>
+  <md-fab-actions>
+    <md-button class="md-fab md-raised md-mini" aria-label="Añadir nivel" href="/#!/niveles/create">
+      <md-tooltip md-direction="right">Añadir nivel</md-tooltip>
+      <md-icon md-svg-icon="/img/icons/ic_add_black_24px.svg"></md-icon>
+    </md-button>
+    <md-button class="md-fab md-raised md-mini" aria-label="Descargar" ng-click="csv.generate()" ng-href="{{ csv.link() }}" download="niveles.csv">
+      <md-tooltip md-direction="right">Descargar</md-tooltip>
+      <md-icon md-svg-icon="/img/icons/ic_file_download_black_24px.svg"></md-icon>
+    </md-button>
+  </md-fab-actions>
+</md-fab-speed-dial>

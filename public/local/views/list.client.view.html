@@ -1,0 +1,47 @@
+<h3>Locales</h3>
+
+<table data-ng-controller="LocalController as nc" ng-table="nc.tableParams" export-csv="csv" class="table table-condensed table-bordered table-striped">
+<caption>Capacidad total disponible: {{capacidad_total}}</caption>
+  <colgroup>
+    <col width="45%" />
+    <col width="20%" />
+    <col width="20%" />
+    <col width="15%" />
+  </colgroup>
+    <tr ng-repeat="local in $data" style="text-align: center;">
+        <td title="'Ubicación'" filter="{ ubicacion: 'text'}" sortable="'ubicacion'">{{local.ubicacion}}</td>
+        <td title="'Capacidad'">{{local.capacidad}}</td>
+        <td title="'Disponibilidad'"><md-checkbox ng-checked="local.disponibilidad" aria-label="Disponibilidad"></md-checkbox></td>
+        <td>
+          <a ng-href="/#!/locales/{{local.id}}">
+            <md-tooltip md-direction="top">Ver detalles del local</md-tooltip>
+            <md-icon md-svg-icon="/img/icons/ic_details_black_24px.svg" aria-label="Detalles" style="color:#f00;"></md-icon>
+          </a>
+          <a ng-href="/#!/locales/{{local.id}}/edit">
+            <md-tooltip md-direction="top">Editar local</md-tooltip>
+            <md-icon md-svg-icon="/img/icons/ic_mode_edit_black_24px.svg" aria-label="Editar local" style="color:#f00;"></md-icon>
+          </a>
+          <md-icon md-svg-icon="/img/icons/ic_delete_black_24px.svg" ng-click="nc.del(local)" aria-label="Eliminar local" style="color:#f00;">
+            <md-tooltip md-direction="top">Eliminar local</md-tooltip>
+          </md-icon>
+        </td>
+    </tr>
+</table>
+<md-fab-speed-dial md-direction="up" md-open="false" class="md-fling">
+  <md-fab-trigger>
+    <md-button class="md-fab md-raised" aria-label="Locales">
+        <md-tooltip md-direction="right">Locales</md-tooltip>
+        <md-icon md-svg-icon="/img/icons/ic_location_city_black_24px.svg"></md-icon>
+    </md-button>
+  </md-fab-trigger>
+  <md-fab-actions>
+    <md-button class="md-fab md-raised md-mini" aria-label="Añadir local" href="/#!/locales/create">
+      <md-tooltip md-direction="right">Añadir local</md-tooltip>
+      <md-icon md-svg-icon="/img/icons/ic_add_black_24px.svg"></md-icon>
+    </md-button>
+    <md-button class="md-fab md-raised md-mini" aria-label="Descargar" ng-click="csv.generate()" ng-href="{{ csv.link() }}" download="locales.csv">
+      <md-tooltip md-direction="right">Descargar</md-tooltip>
+      <md-icon md-svg-icon="/img/icons/ic_file_download_black_24px.svg"></md-icon>
+    </md-button>
+  </md-fab-actions>
+</md-fab-speed-dial>

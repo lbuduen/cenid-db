@@ -1,0 +1,35 @@
+{
+  "name": "reg",
+  "version": "1.0.0",
+  "description": "Project for the management of the tests and courses offered by UCI CENID",
+  "main": "server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "english",
+    "course",
+    "level",
+    "test"
+  ],
+  "author": "Eng. Leodan A Buduen",
+  "license": "ISC",
+  "dependencies": {
+    "body-parser": "^1.15.1",
+    "compression": "^1.6.2",
+    "connect-flash": "^0.1.1",
+    "csv-parse": "^1.1.7",
+    "ejs": "^2.4.2",
+    "express": "^4.13.4",
+    "express-fileupload": "0.0.5",
+    "express-session": "^1.13.0",
+    "method-override": "^2.3.6",
+    "morgan": "^1.7.0",
+    "mysql": "^2.10.2",
+    "passport": "^0.3.2",
+    "passport-local": "^1.0.0",
+    "sequelize": "^3.23.3",
+    "sequelize-cli": "^2.4.0",
+    "serve-favicon": "^2.3.0"
+  }
+}

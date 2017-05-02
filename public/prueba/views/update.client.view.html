@@ -1,0 +1,34 @@
+<div data-ng-controller="PruebaController" data-ng-init="findOne();loadNiveles()" layout="column" ng-cloak>
+<h1 class="md-headline">Editar prueba</h1>
+  <md-content layout-padding>
+    <form data-ng-submit="updPruebaForm.$valid && update()" name="updPruebaForm" novalidate>
+      <md-input-container class="md-block">
+        <label>Título</label>
+        <input required name="titulo" ng-model="prueba.titulo" >
+        <div ng-messages="updPruebaForm.titulo.$error">
+            <div ng-message="required">Este campo es obligatorio</div>
+        </div>
+      </md-input-container>
+      <md-input-container class="md-block">
+        <label>Nivel(es)</label>
+        <md-select placeholder="Nivel(es)" ng-model="prueba.niveles_id" style="min-width: 200px;" multiple>
+          <md-option ng-value="nivel.id" ng-selected="{{nivel.checked}}" ng-repeat="nivel in nivel_select">{{nivel.nombre}}</md-option>
+        </md-select>
+      </md-input-container>
+      <md-datepicker name="fecha" ng-model="prueba.fecha" md-placeholder="Fecha" required></md-datepicker>
+      <div class="validation-messages" ng-messages="updPruebaForm.fecha.$error">
+        <div ng-message="valid">Formato de fecha incorrecto</div>
+        <div ng-message="required">Este campo es obligatorio</div>
+      </div>
+      <md-input-container class="md-block">
+        <label>Código</label>
+        <input required name="codigo" ng-model="prueba.codigo">
+      </md-input-container>
+
+      <div layout="row" style="margin-top: 30px;">
+          <md-button class="md-raised" type="submit">Enviar</md-button>
+          <md-button class="md-raised" href="/#!/pruebas/">Cancelar</md-button>
+      </div>
+    </form>
+  </md-content>
+</div>

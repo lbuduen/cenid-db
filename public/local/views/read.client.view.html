@@ -1,0 +1,30 @@
+<md-card data-ng-controller="LocalController" data-ng-init="findOne()">
+    <md-card-title>
+        <md-card-title-text>
+            <span class="md-headline">Local {{local.ubicacion}}</span>
+        </md-card-title-text>
+    </md-card-title>
+    <md-card-content>
+        <p>Capacidad: <span data-ng-bind="local.capacidad"></span></p>
+        Disponibilidad: <md-checkbox ng-checked="local.disponibilidad" aria-label="Disponibilidad"></md-checkbox>
+    </md-card-content>
+    <md-card-actions layout="row" layout-align="end center">
+        <md-button class="md-primary" href="/#!/locales/{{local.id}}/edit">Editar</md-button>
+        <md-button class="md-warn" data-ng-click="remove();">Eliminar</md-button>
+    </md-card-actions>
+</md-card>
+
+<md-fab-speed-dial md-direction="up" md-open="false" class="md-fling">
+  <md-fab-trigger>
+    <md-button class="md-fab md-raised" aria-label="Añadir">
+        <md-tooltip md-direction="right">Locales</md-tooltip>
+        <md-icon md-svg-icon="/img/icons/ic_location_city_black_24px.svg"></md-icon>
+    </md-button>
+  </md-fab-trigger>
+  <md-fab-actions>
+    <md-button class="md-fab md-raised md-mini" aria-label="Añadir local" href="/#!/locales/create">
+      <md-tooltip md-direction="right">Añadir local</md-tooltip>
+      <md-icon md-svg-icon="/img/icons/ic_add_black_24px.svg"></md-icon>
+    </md-button>
+  </md-fab-actions>
+</md-fab-speed-dial>

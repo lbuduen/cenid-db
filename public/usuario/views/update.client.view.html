@@ -1,0 +1,48 @@
+<div data-ng-controller="UsuarioController" data-ng-init="findOne()" layout="column" ng-cloak>
+<h1 class="md-headline">Editar usuario</h1>
+  <md-content layout-padding>
+    <form data-ng-submit="createUsrForm.$valid && update()" name="createUsrForm" novalidate>
+      <md-input-container class="md-block">
+        <label>Nombre</label>
+        <input required name="nombre" ng-model="usuario.nombre" md-maxlength="40">
+        <div ng-messages="createUsrForm.nombre.$error">
+            <div ng-message="required">Este campo es obligatorio</div>
+        </div>
+      </md-input-container>
+      <md-input-container class="md-block">
+        <label>Apellidos</label>
+        <input required name="apellidos" ng-model="usuario.apellidos" md-maxlength="70">
+        <div ng-messages="createUsrForm.apellidos.$error">
+            <div ng-message="required">Este campo es obligatorio</div>
+        </div>
+      </md-input-container>
+      <md-input-container class="md-block">
+        <label>Email</label>
+        <input type="email" required name="email" ng-model="usuario.email" md-maxlength="40">
+        <div ng-messages="createUsrForm.email.$error">
+            <div ng-message="required">Este campo es obligatorio</div>
+            <div ng-message="email">Formato de correo incorrecto</div>
+        </div>
+      </md-input-container>
+      <md-input-container class="md-block">
+        <label>Área</label>
+        <input required name="area" ng-model="usuario.area" md-maxlength="100">
+        <div ng-messages="createUsrForm.area.$error">
+            <div ng-message="required">Este campo es obligatorio</div>
+        </div>
+      </md-input-container>
+      <!--<md-input-container class="md-block">
+        <label>Clave</label>
+        <input type="password" required name="clave" ng-model="clave">
+        <div ng-messages="createUsrForm.clave.$error">
+            <div ng-message="required">Este campo es obligatorio</div>
+        </div>
+      </md-input-container>-->
+      
+      <div layout="row" style="margin-top: 30px;">
+          <md-button class="md-raised" type="submit">Enviar</md-button>
+          <md-button class="md-raised" href="/#!/usuarios/">Cancelar</md-button>
+      </div>
+    </form>
+  </md-content>
+</div>

@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link rel="stylesheet" href="/lib/angular-material/angular-material.css" />
+    <title>
+        <%= title %>
+    </title>
+</head>
+
+<body ng-cloak>
+    <md-content ng-cloak>
+        <div layout="row">
+            <!-- 20% padding to the left -->
+            <div flex="35"></div>
+            <section flex="30">
+                <md-card>
+                    <form action="/signin" method="post" novalidate>
+                    <md-card-title>
+                        <md-card-title-text>
+                            <span class="md-headline">CENID</span>
+                        </md-card-title-text>
+                    </md-card-title>
+                     <% for(var i in messages) { %>
+        <div class="flash">
+            <%= messages[i] %>
+        </div>
+        <% } %>
+                    <md-card-content>
+                        <md-input-container class="md-block">
+                            <label>Email</label>
+                            <input required name="email" type="email">
+                        </md-input-container>
+                        <md-input-container class="md-block">
+                            <label>Contrase&ntilde;a:</label>
+                            <input required name="clave" type="password">
+                        </md-input-container>
+                        <div layout="row" style="margin-top: 30px;"></div>
+                    </md-card-content>
+                    <md-card-actions layout="row" >
+                        <md-button flex="100" type="submit">Acceder</md-button>
+                    </md-card-actions>
+                    </form>
+                </md-card>
+            </section>
+        <!-- 20% padding to the right -->
+        <div flex="35"></div>
+        </div>
+    </md-content>
+
+<script src="/lib/lodash.js"></script>
+
+<script src="/lib/angular/angular.js"></script>
+<script src="/lib/angular-route/angular-route.js"></script>
+<script src="/lib/angular-resource/angular-resource.js"></script>
+<script src="/lib/angular-messages/angular-messages.js"></script>
+<script src="/lib/ng-table/dist/ng-table.js"></script>
+<script src="/lib/ng-table-to-csv/dist/ng-table-to-csv.js"></script>
+<script src="/lib/angular-local-storage/dist/angular-local-storage.min.js"></script>
+
+<!-- angular material -->
+<script src="/lib/angular-animate/angular-animate.js"></script>
+<script src="/lib/angular-aria/angular-aria.js"></script>
+<script src="/lib/angular-messages/angular-messages.js"></script>
+<script src="/lib/angular-material/angular-material.js"></script>
+
+<script src="/lib/pdfmake/build/pdfmake.min.js"></script>
+<script src="/lib/pdfmake/build/vfs_fonts.js"></script>
+
+<!-- modulos -->
+<script src="/usuario/usuario.client.module.js"></script>
+<!-- <script src="/usuario/controllers/usuario.client.controller.js"></script>     -->
+<script src="/usuario/controllers/estudiante.client.controller.js"></script>
+<script src="/usuario/controllers/profesor.client.controller.js"></script>
+<script src="/usuario/config/usuario.client.routes.js"></script>
+<!-- <script src="/usuario/services/usuario.client.service.js"></script> -->
+<script src="/usuario/services/estudiante.client.service.js"></script>
+<script src="/usuario/services/profesor.client.service.js"></script>
+
+<script src="/curso/curso.client.module.js"></script>
+<script src="/curso/controllers/curso.client.controller.js"></script>
+<script src="/curso/config/curso.client.routes.js"></script>
+<script src="/curso/services/curso.client.service.js"></script>
+
+<script src="/grupo/grupo.client.module.js"></script>
+<script src="/grupo/controllers/grupo.client.controller.js"></script>
+<script src="/grupo/config/grupo.client.routes.js"></script>
+<script src="/grupo/services/grupo.client.service.js"></script>
+
+<script src="/nivel/nivel.client.module.js"></script>
+<script src="/nivel/controllers/nivel.client.controller.js"></script>
+<script src="/nivel/config/nivel.client.routes.js"></script>
+<script src="/nivel/services/nivel.client.service.js"></script>
+
+<script src="/local/local.client.module.js"></script>
+<script src="/local/controllers/local.client.controller.js"></script>
+<script src="/local/config/local.client.routes.js"></script>
+<script src="/local/services/local.client.service.js"></script>
+
+<script src="/prueba/prueba.client.module.js"></script>
+<script src="/prueba/controllers/prueba.client.controller.js"></script>
+<script src="/prueba/config/prueba.client.routes.js"></script>
+<script src="/prueba/services/prueba.client.service.js"></script>
+
+<script src="/search/search.client.module.js"></script>
+<script src="/search/config/search.client.routes.js"></script>
+<script src="/search/services/search.client.service.js"></script>
+<!-- modulos -->
+<script src="/application.js"></script>
+</body>
+
+</html>

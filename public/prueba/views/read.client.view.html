@@ -1,0 +1,120 @@
+<div data-ng-controller="PruebaController" data-ng-init="findOne()">
+  <md-card>
+    <md-card-title>
+      <md-card-title-text>
+        <span class="md-headline" data-ng-bind="prueba.titulo"></span>
+      </md-card-title-text>
+    </md-card-title>
+    <md-card-content>
+      <md-tabs md-dynamic-height md-border-bottom>
+        <md-tab label="prueba">
+          <md-content class="md-padding">
+            <md-icon md-svg-icon="/img/icons/ic_date_range_black_24px.svg">
+              <md-tooltip md-direction="right">Fecha</md-tooltip>
+            </md-icon>
+            <p data-ng-bind="prueba.fecha | date:'dd/MM/yyyy'"></p>
+            <md-icon md-svg-icon="/img/icons/ic_code_black_24px.svg">
+              <md-tooltip md-direction="right">Código</md-tooltip>
+            </md-icon>
+            <p data-ng-bind="prueba.codigo"></p>
+            <div data-ng-show="prueba.niveles.length" style="margin:10px 0px">
+              <md-icon md-svg-icon="/img/icons/ic_poll_black_24px.svg">
+                <md-tooltip md-direction="right">Nivel(es)</md-tooltip>
+              </md-icon>
+              <md-chips ng-model="prueba.niveles" readonly="true" md-removable="false">
+                <md-chip-template>
+                  <a ng-href="/#!/niveles/{{$chip.id}}">{{$chip.nombre}}</a>
+                </md-chip-template>
+              </md-chips>
+            </div>
+            <div data-ng-show="prueba.habilidades.length">
+              <md-icon md-svg-icon="/img/icons/lightbulb-on-outline.svg">
+                <md-tooltip md-direction="right">Habilidad(es)</md-tooltip>
+              </md-icon>
+              <md-chips ng-model="prueba.habilidades" readonly="true" md-removable="false">
+                <md-chip-template>
+                  <span>{{$chip.nombre}}</span>
+                </md-chip-template>
+              </md-chips>
+            </div>
+          </md-content>
+        </md-tab>
+        <md-tab label="estudiantes ({{count}}/{{ estudiantes.length }})">
+          <md-content class="md-padding">
+            <div when-scrolled="loadMore()" style="height: 500px; overflow: auto">
+              <table class="table table-hover table-striped" id="estudiantes_prueba" data-ng-show="prueba_estudiantes.length">
+                <thead class="thead-default">
+                  <tr>
+                    <th>Nombre completo</th>
+                    <th>Email</th>
+                    <th ng-show="display == 0">Estado</th>
+                    <th ng-show="display == 0">Local</th>
+                    <th data-ng-show="display == 1 || display == 2" data-ng-repeat="h in prueba.habilidades">{{h.nombre}}</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr data-ng-repeat="est in prueba_estudiantes track by $index">
+                    <td><a href="/#!/estudiantes/{{est.idestudiante}}">{{est.nombre_completo}}</a></td>
+                    <td><a href="mailto:{{est.email}}">{{est.email}}</a></td>
+                    <td data-ng-show="display == 0">{{est.estado_prueba | estado_prueba}}</td>
+                    <td data-ng-show="display == 0"><a href="/#!/locales/{{est.idlocal}}">{{est.ubicacion}}</a></td>
+                    <td data-ng-show="display == 1" data-ng-repeat="n in est.nota">
+                      {{n.nota}}
+                    </td>
+                    <td data-ng-show="display == 2" data-ng-repeat="h in prueba.habilidades">
+                      <select data-habilidad="{{h.id}}" data-estudiante="{{est.idestudiante}}" data-prueba="{{prueba.idprueba}}">
+                        <option ng-value="n" ng-repeat="n in notas">{{n}}</option>
+                      </select>
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+            <p data-ng-show="!prueba_estudiantes.length">
+              No se han asociado los estudiantes que tomarán este examen. <a href="/#!/pruebas/add/estudiantes">Clic aquí para asociarlos</a>
+            </p>
+            <md-card-actions layout="row" layout-align="end center" data-ng-show="display == 2">
+              <md-button class="md-raised" data-ng-click="calificar()">Guardar</md-button>
+              <md-button class="md-raised" data-ng-click="setDisplay(0)">Cancelar</md-button>
+            </md-card-actions>
+          </md-content>
+        </md-tab>
+      </md-tabs>
+    </md-card-content>
+  </md-card>
+
+  <md-fab-speed-dial md-direction="up" md-open="false" class="md-fling">
+    <md-fab-trigger>
+      <md-button class="md-fab md-raised" aria-label="Añadir">
+        <md-tooltip md-direction="right">Pruebas</md-tooltip>
+        <md-icon md-svg-icon="/img/icons/ic_question_answer_black_24px.svg"></md-icon>
+      </md-button>
+    </md-fab-trigger>
+    <md-fab-actions>
+      <md-button class="md-fab md-raised md-mini" aria-label="Añadir prueba" href="/#!/pruebas/create">
+        <md-tooltip md-direction="right">Añadir prueba</md-tooltip>
+        <md-icon md-svg-icon="/img/icons/ic_add_black_24px.svg"></md-icon>
+      </md-button>
+      <md-button class="md-fab md-raised md-mini" aria-label="Editar esta prueba" data-ng-href="/#!/pruebas/{{prueba.idprueba}}/edit">
+        <md-tooltip md-direction="right">Editar esta prueba</md-tooltip>
+        <md-icon md-svg-icon="/img/icons/ic_mode_edit_black_24px.svg" aria-label="Editar esta prueba" style="color:#f00;"></md-icon>
+      </md-button>
+      <md-button class="md-fab md-raised md-mini" aria-label="Eliminar prueba" data-ng-click="remove();">
+        <md-tooltip md-direction="right">Eliminar esta prueba</md-tooltip>
+        <md-icon md-svg-icon="/img/icons/ic_delete_black_24px.svg" aria-label="Eliminar esta prueba"></md-icon>
+      </md-button>
+      <md-button class="md-fab md-raised md-mini" aria-label="Descargar en formato PDF" data-ng-click="download();">
+        <md-tooltip md-direction="right">Descargar listado de estudiantes en formato PDF</md-tooltip>
+        <md-icon md-svg-icon="/img/icons/ic_picture_as_pdf_black_24px.svg" aria-label="Descargar en formato PDF"></md-icon>
+      </md-button>
+      <md-button class="md-fab md-raised md-mini" aria-label="Mostrar calificaciones" data-ng-click="setDisplay(1)">
+        <md-tooltip md-direction="right">Mostrar calificaciones</md-tooltip>
+        <md-icon md-svg-icon="/img/icons/ic_grade_black_24px.svg"></md-icon>
+      </md-button>
+      <md-button class="md-fab md-raised md-mini" aria-label="Añadir calificaciones" data-ng-click="setEscala($event); setDisplay(2);">
+        <md-tooltip md-direction="right">Añadir calificaciones</md-tooltip>
+        <md-icon md-svg-icon="/img/icons/star-half.svg"></md-icon>
+      </md-button>
+    </md-fab-actions>
+  </md-fab-speed-dial>
+</div>

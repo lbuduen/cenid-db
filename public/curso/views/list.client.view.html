@@ -1,0 +1,58 @@
+<!-- <md-list data-ng-controller="CursoController" data-ng-init="find()" ng-cloak>
+    <md-subheader class="md-no-sticky">Cursos</md-subheader>
+    <md-list-item ng-repeat="curso in cursos">
+        <p><a href="/#!/cursos/{{curso.id}}/edit">{{ curso.titulo }}</a></p>
+        <md-icon md-svg-icon="/img/icons/ic_delete_black_24px.svg" ng-click="remove(curso)" aria-label="Eliminar curso" style="color:#f00;"></md-icon>
+    </md-list-item>
+</md-list>
+ -->
+<h3 class="md-no-sticky">Cursos</h3>
+
+<table data-ng-controller="CursoController as cc" ng-table="cc.tableParams" export-csv="csv" class="table table-bordered table-striped">
+  <colgroup>
+    <col width="40%" />
+    <col width="15%" />
+    <col width="15%" />
+    <col width="10%" />
+  </colgroup>
+    <tr ng-repeat="curso in $data">
+        <td title="'Título'" filter="{ titulo: 'text'}" sortable="'titulo'">
+            {{curso.titulo}}</td>
+        <td title="'Desde'" filter="{ fecha_inicio: 'text'}" sortable="'fecha_inicio'">
+            {{curso.fecha_inicio | date:'dd/MM/yyyy'}}</td>
+        <td title="'Hasta'" filter="{ fecha_fin: 'text'}" sortable="'fecha_fin'">
+            {{curso.fecha_fin | date: 'dd/MM/yyyy'}}</td>
+        <td style="text-align: center;">
+          <a ng-href="/#!/cursos/{{curso.id}}">
+            <md-tooltip md-direction="top">Ver detalles del curso</md-tooltip>
+            <md-icon md-svg-icon="/img/icons/ic_details_black_24px.svg" aria-label="Detalles" style="color:#f00;"></md-icon>
+          </a>
+          <a ng-href="/#!/cursos/{{curso.id}}/edit" data-ng-show="authentication.user">
+            <md-tooltip md-direction="top">Editar curso</md-tooltip>
+            <md-icon md-svg-icon="/img/icons/ic_mode_edit_black_24px.svg" aria-label="Editar curso" style="color:#f00;"></md-icon>
+          </a>
+          <md-icon md-svg-icon="/img/icons/ic_delete_black_24px.svg" ng-click="cc.del(curso)" aria-label="Eliminar curso" data-ng-show="authentication.user" style="color:#f00;">
+            <md-tooltip md-direction="top">Eliminar curso</md-tooltip>
+          </md-icon>
+        </td>
+    </tr>
+</table>
+
+<md-fab-speed-dial md-direction="up" md-open="false" class="md-fling">
+  <md-fab-trigger>
+    <md-button class="md-fab md-raised" aria-label="Añadir">
+        <md-tooltip md-direction="right">Cursos</md-tooltip>
+        <md-icon md-svg-icon="/img/icons/ic_school_black_24px.svg"></md-icon>
+    </md-button>
+  </md-fab-trigger>
+  <md-fab-actions>
+    <md-button class="md-fab md-raised md-mini" aria-label="Añadir curso" href="/#!/cursos/create" >
+      <md-tooltip md-direction="right">Añadir curso</md-tooltip>
+      <md-icon md-svg-icon="/img/icons/ic_add_black_24px.svg"></md-icon>
+    </md-button>
+    <md-button class="md-fab md-raised md-mini" aria-label="Descargar" ng-click="csv.generate()" ng-href="{{ csv.link() }}" download="cursos.csv">
+      <md-tooltip md-direction="right">Descargar</md-tooltip>
+      <md-icon md-svg-icon="/img/icons/ic_file_download_black_24px.svg"></md-icon>
+    </md-button>
+  </md-fab-actions>
+</md-fab-speed-dial>

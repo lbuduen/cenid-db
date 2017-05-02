@@ -1,0 +1,52 @@
+<h3>Pruebas</h3>
+<table data-ng-controller="PruebaController as prc" ng-table="prc.tableParams" export-csv="csv" class="table table-condensed table-bordered table-striped">
+  <colgroup>
+    <col width="25%" />
+    <col width="20%" />
+    <col width="15%" />
+    <col width="10%" />
+    <col width="10%" />
+  </colgroup>
+    <tr ng-repeat="prueba in $data">
+        <td title="'Título'" filter="{ titulo: 'text'}" sortable="'titulo'">
+            {{prueba.titulo}}</td>
+        <td title="'Lugar'" filter="{ lugar: 'text'}" sortable="'lugar'">
+            {{prueba.lugar}}</td>
+        <td title="'Fecha'" filter="{ fecha: 'text'}" sortable="'fecha'">
+            {{prueba.fecha | date:'dd/MM/yyyy'}}</td>
+        <td title="'Código'" filter="{ codigo: 'text'}" sortable="'codigo'">
+            {{prueba.codigo}}</td>
+        <td style="text-align: center;">
+          <a ng-href="/#!/pruebas/{{prueba.idprueba}}">
+            <md-tooltip md-direction="top">Ver detalles de la prueba</md-tooltip>
+            <md-icon md-svg-icon="/img/icons/ic_details_black_24px.svg" aria-label="Detalles" style="color:#f00;"></md-icon>
+          </a>
+          <a ng-href="/#!/pruebas/{{prueba.idprueba}}/edit">
+            <md-tooltip md-direction="top">Editar prueba</md-tooltip>
+            <md-icon md-svg-icon="/img/icons/ic_mode_edit_black_24px.svg" aria-label="Editar prueba" style="color:#f00;"></md-icon>
+          </a>
+          <md-icon md-svg-icon="/img/icons/ic_delete_black_24px.svg" ng-click="prc.del(prueba)" aria-label="Eliminar prueba" style="color:#f00;">
+            <md-tooltip md-direction="top">Eliminar prueba</md-tooltip>
+          </md-icon>
+        </td>
+    </tr>
+</table>
+
+<md-fab-speed-dial md-direction="up" md-open="false" class="md-fling">
+  <md-fab-trigger>
+    <md-button class="md-fab md-raised" aria-label="Añadir">
+        <md-tooltip md-direction="right">Pruebas</md-tooltip>
+        <md-icon md-svg-icon="/img/icons/ic_question_answer_black_24px.svg"></md-icon>
+    </md-button>
+  </md-fab-trigger>
+  <md-fab-actions>
+    <md-button class="md-fab md-raised md-mini" aria-label="Añadir prueba" href="/#!/pruebas/create">
+      <md-tooltip md-direction="right">Añadir prueba</md-tooltip>
+      <md-icon md-svg-icon="/img/icons/ic_add_black_24px.svg"></md-icon>
+    </md-button>
+    <md-button class="md-fab md-raised md-mini" aria-label="Descargar" ng-click="csv.generate()" ng-href="{{ csv.link() }}" download="pruebas.csv">
+      <md-tooltip md-direction="right">Descargar</md-tooltip>
+      <md-icon md-svg-icon="/img/icons/ic_file_download_black_24px.svg"></md-icon>
+    </md-button>
+  </md-fab-actions>
+</md-fab-speed-dial>

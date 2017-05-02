@@ -1,0 +1,29 @@
+<md-card data-ng-controller="NivelController" data-ng-init="findOne()">
+    <md-card-title>
+        <md-card-title-text>
+            <span class="md-headline">Nivel {{nivel.nombre}}</span>
+        </md-card-title-text>
+    </md-card-title>
+    <md-card-content>
+        <p data-ng-bind="nivel.descripcion"></p>
+    </md-card-content>
+    <md-card-actions layout="row" layout-align="end center">
+        <md-button class="md-primary" href="/#!/niveles/{{nivel.id}}/edit">Editar</md-button>
+        <md-button class="md-warn" data-ng-click="remove();">Eliminar</md-button>
+    </md-card-actions>
+</md-card>
+
+<md-fab-speed-dial md-direction="up" md-open="false" class="md-fling">
+  <md-fab-trigger>
+    <md-button class="md-fab md-raised" aria-label="Añadir">
+        <md-tooltip md-direction="right">Niveles</md-tooltip>
+        <md-icon md-svg-icon="/img/icons/ic_poll_black_24px.svg"></md-icon>
+    </md-button>
+  </md-fab-trigger>
+  <md-fab-actions>
+    <md-button class="md-fab md-raised md-mini" aria-label="Añadir nivel" href="/#!/niveles/create">
+      <md-tooltip md-direction="right">Añadir nivel</md-tooltip>
+      <md-icon md-svg-icon="/img/icons/ic_add_black_24px.svg"></md-icon>
+    </md-button>
+  </md-fab-actions>
+</md-fab-speed-dial>

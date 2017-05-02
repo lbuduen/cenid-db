@@ -1,0 +1,59 @@
+<div ng-controller="PruebaController as pc" data-ng-init="find(); findLocales(); shuffle_est=true" class="md-padding" ng-cloak>
+  <h3>Configurar participantes</h3>
+  <form name="pr_frm" data-ng-submit="pr_frm.$valid && asociarParticipantes()" novalidate>
+    <md-input-container class="md-block">
+      <label>Pruebas</label>
+      <md-select ng-model="pruebas_estudiantes" name="pruebas_estudiantes" multiple required>
+        <md-optgroup label="{{cod}}" data-ng-repeat="cod in codigos">
+          <md-option ng-value="prueba.id" ng-repeat="prueba in pruebas | filter: {codigo: cod }">{{prueba.titulo}}</md-option>
+        </md-optgroup>
+      </md-select>
+      <div ng-messages="pr_frm.pruebas_estudiantes.$error">
+        <div ng-message="required">Este campo es obligatorio</div>
+      </div>
+    </md-input-container>
+    <h4>Participantes ({{countSelected()}})
+      <md-checkbox aria-label="Select All" ng-checked="isChecked()" md-indeterminate="isIndeterminate()" ng-click="toggleAll()">
+    </h4>
+    <table ng-table="pc.tableParticipants" class="table table-striped">
+      <colgroup>
+        <col width="5%" />
+        <col width="30%" />
+        <col width="15%" />
+        <col width="20%" />
+        <col width="30%" />
+      </colgroup>
+      <tr ng-repeat="user in $data">
+        <td style="text-align: center;">
+          <md-checkbox ng-checked="exists(user, selected)" ng-click="toggle(user, selected)" aria-label="estudiante {{user.idestudiante}}"></md-checkbox>
+        </td>
+        <td title="'Nombre completo'" filter="{ nombre: 'text'}" sortable="'nombre'">
+          {{user.nombre + " " + user.apellidos}}</td>
+        <td title="'Nivel diagn.'" filter="{ nivel_diagnosticado: 'text'}" sortable="'nivel_diagnosticado'" style="text-align: center;">
+          {{user.nivel_diagnosticado}}</td>
+        <td title="'Email'" filter="{ email: 'text'}" sortable="'email'">
+          {{user.email}}</td>
+        <td title="'Área'" filter="{ area: 'text'}" sortable="'area'">
+          {{user.area}}</td>
+      </tr>
+    </table>
+
+    <md-checkbox ng-model="shuffle_est" aria-label="shuffle" flex>
+      Ubicar los estudiantes aleatoriamente
+    </md-checkbox>
+
+    <md-input-container class="md-block">
+      <label>Locales</label>
+      <md-select ng-model="locales_prueba" name="locales_prueba" multiple required>
+        <md-option ng-value="local" ng-repeat="local in locales | filter: {disponibilidad: 1 }">{{local.ubicacion}} ({{local.capacidad}})</md-option>
+      </md-select>
+      <div ng-messages="pr_frm.locales_prueba.$error">
+        <div ng-message="required">Este campo es obligatorio</div>
+      </div>
+    </md-input-container>
+    <div layout="row" style="margin-top: 30px;">
+      <md-button class="md-raised" type="submit">Enviar</md-button>
+      <md-button class="md-raised" href="/#!/pruebas/">Cancelar</md-button>
+    </div>
+  </form>
+</div>

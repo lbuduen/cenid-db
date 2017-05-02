@@ -1,0 +1,70 @@
+<div data-ng-controller="GrupoController">
+<md-card data-ng-init="findOne()">
+    <md-card-title>
+        <md-card-title-text>
+            <span class="md-headline">Grupo</span>
+        </md-card-title-text>
+    </md-card-title>
+    <md-card-content>
+        <p data-ng-bind="grupo.nombre" data-ng-show="mode=='read'"></p>
+        <md-input-container class="md-block" data-ng-show="mode=='edit'">
+          <label>Nombre</label>
+          <input required name="nombre" ng-model="grupo.nombre" md-maxlength="40" autofocus>
+          <div ng-messages="updGrupoForm.nombre.$error">
+              <div ng-message="required">Este campo es obligatorio</div>
+          </div>
+        </md-input-container>
+        <h4>Estudiantes <md-icon md-svg-icon="/img/icons/ic_add_circle_outline_black_24px.svg" data-ng-show="mode=='edit'" data-ng-click="addEstudiante($event)"><md-tooltip md-direction="top">Añadir estudiantes</md-tooltip></md-icon></h4>
+        <table class="table table-hover" id="grupo_estudiantes_tbl">
+          <thead class="thead-default">
+            <tr>
+              <th>Nombre completo</th>
+              <th>Email</th>
+              <th>Área</th>
+              <th></th>
+            </tr>
+          </thead>
+          <tfoot>
+            <tr>
+              <td colspan="4"><i>Total:</i> {{ grupo.Estudiantes.length }} </td>
+            </tr>
+          </tfoot>
+          <tbody>
+            <tr data-ng-repeat="est in grupo.Estudiantes track by $index">
+              <td><a href="/#!/estudiantes/{{est.id}}">{{est.Usuario.nombre + " " + est.Usuario.apellidos}}</a></td>
+              <td><a href="mailto:{{est.Usuario.email}}">{{est.Usuario.email}}</a></td>
+              <td>{{est.Usuario.area}}</td>
+              <td><md-icon md-svg-icon="/img/icons/ic_remove_circle_outline_black_24px.svg" data-ng-click="removeEstudiante($index, est.id, $event)" data-ng-show="mode=='edit'" aria-label="Eliminar del grupo"><md-tooltip md-direction="top">Eliminar del grupo</md-tooltip></md-icon></td>
+            </tr>
+          </tbody>
+        </table>
+    </md-card-content>
+    <md-card-actions layout="row" layout-align="end center" data-ng-show="mode=='edit'">
+        <md-button class="md-raised" data-ng-click="update()">Editar</md-button>
+        <md-button class="md-raised" data-ng-click="mode='read'">Cancelar</md-button>
+    </md-card-actions>
+</md-card>
+
+<md-fab-speed-dial md-direction="up" md-open="false" class="md-fling">
+  <md-fab-trigger>
+    <md-button class="md-fab md-raised" aria-label="Añadir">
+        <md-tooltip md-direction="right">Grupos</md-tooltip>
+        <md-icon md-svg-icon="/img/icons/ic_people_black_24px.svg"></md-icon>
+    </md-button>
+  </md-fab-trigger>
+  <md-fab-actions>
+    <md-button class="md-fab md-raised md-mini" aria-label="Añadir grupo" href="/#!/grupos/create">
+      <md-tooltip md-direction="right">Añadir grupo</md-tooltip>
+      <md-icon md-svg-icon="/img/icons/ic_add_black_24px.svg"></md-icon>
+    </md-button>
+    <md-button class="md-fab md-raised md-mini" aria-label="Editar este grupo" data-ng-click="mode = 'edit'">
+      <md-tooltip md-direction="right">Editar este grupo</md-tooltip>
+      <md-icon md-svg-icon="/img/icons/ic_mode_edit_black_24px.svg" aria-label="Editar este grupo" style="color:#f00;"></md-icon>
+    </md-button>
+    <md-button class="md-fab md-raised md-mini" aria-label="Eliminar grupo" data-ng-click="remove();">
+      <md-tooltip md-direction="right">Eliminar este grupo</md-tooltip>
+      <md-icon md-svg-icon="/img/icons/ic_delete_black_24px.svg" aria-label="Eliminar este grupo"></md-icon>
+    </md-button>
+  </md-fab-actions>
+</md-fab-speed-dial>
+</div>

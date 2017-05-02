@@ -1,0 +1,18 @@
+<div data-ng-controller="GrupoController" data-ng-init="findOne()" layout="column" ng-cloak>
+<h1 class="md-headline">Editar grupo</h1>
+  <md-content layout-padding>
+    <form data-ng-submit="updGrupoForm.$valid && update()" name="updGrupoForm" novalidate>
+      <md-input-container class="md-block">
+        <label>Nombre</label>
+        <input required name="nombre" ng-model="grupo.nombre" md-maxlength="40">
+        <div ng-messages="updGrupoForm.nombre.$error">
+            <div ng-message="required">Este campo es obligatorio</div>
+        </div>
+      </md-input-container>
+      <div layout="row" style="margin-top: 30px;">
+          <md-button class="md-raised" type="submit">Enviar</md-button>
+          <md-button class="md-raised" href="/#!/grupos/">Cancelar</md-button>
+      </div>
+    </form>
+  </md-content>
+</div>

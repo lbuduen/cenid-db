@@ -1,0 +1,35 @@
+<div data-ng-controller="CursoController" layout="column" ng-cloak>
+<h1 class="md-headline">Crear curso</h1>
+  <md-content layout-padding>
+    <form data-ng-submit="createCursoForm.$valid && create()" name="createCursoForm" novalidate>
+      <md-input-container class="md-block">
+        <label>Título</label>
+        <input required name="titulo" ng-model="titulo" >
+        <div ng-messages="createCursoForm.titulo.$error">
+            <div ng-message="required">Este campo es obligatorio</div>
+        </div>
+      </md-input-container>
+      <md-input-container class="md-block">
+        <label>Descripción</label>
+        <textarea name="descripcion" ng-model="descripcion"></textarea>
+      </md-input-container>
+      <div>
+          <md-datepicker name="fecha_inicio" ng-model="fecha_inicio" md-placeholder="Fecha inicial" required></md-datepicker>
+          <div class="validation-messages" ng-messages="createCursoForm.fecha_inicio.$error">
+                <div ng-message="valid">Formato de fecha incorrecto</div>
+                <div ng-message="required">Este campo es obligatorio</div>
+          </div>
+
+          <md-datepicker name="fecha_fin" ng-model="fecha_fin" md-placeholder="Fecha final" required></md-datepicker>
+          <div class="validation-messages" ng-messages="createCursoForm.fecha_fin.$error">
+                <div ng-message="valid">Formato de fecha incorrecto</div>
+                <div ng-message="required">Este campo es obligatorio</div>
+          </div>
+      </div>
+      <div layout="row" style="margin-top: 30px;">
+          <md-button class="md-raised" type="submit">Enviar</md-button>
+          <md-button class="md-raised" href="/#!/cursos/">Cancelar</md-button>
+      </div>
+    </form>
+  </md-content>
+</div>

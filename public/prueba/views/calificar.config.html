@@ -1,0 +1,36 @@
+<md-dialog aria-label="Mango (Fruit)">
+    <form ng-cloak>
+        <md-toolbar>
+            <div class="md-toolbar-tools">
+                <h2>Configurar calificación</h2>
+                <span flex></span>
+                <md-button class="md-icon-button" ng-click="cancel()">
+                    <md-icon md-svg-src="img/icons/ic_close_black_24px.svg" aria-label="Cerrar"></md-icon>
+                </md-button>
+            </div>
+        </md-toolbar>
+
+        <md-dialog-content>
+            <div class="md-dialog-content">
+                <h1>Seleccione la escala de calificación</h1>
+                <p>
+                    <md-radio-group ng-model="$root.escala">
+
+                        <md-radio-button value="numerica" class="md-primary">Numérica (5, 4, 3, 2)</md-radio-button>
+                        <md-radio-button value="grafica" class="md-primary"> Gráfica (E, MB, B, R, M)</md-radio-button>
+                        <md-radio-button value="nivel" class="md-primary">Nivel (A1, A2, B1, B2, C1, C2)</md-radio-button>
+                        <md-radio-button value="descriptiva" class="md-primary">Descriptiva (Aprobado/No aprobado)</md-radio-button>
+
+                    </md-radio-group>
+                </p>
+            </div>
+        </md-dialog-content>
+
+        <md-dialog-actions layout="row">
+            <span flex></span>
+            <md-button ng-click="answer()">
+                Aceptar
+            </md-button>
+        </md-dialog-actions>
+    </form>
+</md-dialog>

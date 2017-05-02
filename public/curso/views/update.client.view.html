@@ -1,0 +1,102 @@
+<style>
+  .tabsdemoDynamicHeight md-content {
+  background-color: transparent !important; }
+  .tabsdemoDynamicHeight md-content md-tabs {
+    background: #f6f6f6;
+    border: 1px solid #e1e1e1; }
+    .tabsdemoDynamicHeight md-content md-tabs md-tabs-wrapper {
+      background: white; }
+  .tabsdemoDynamicHeight md-content h1:first-child {
+    margin-top: 0; }
+  .selectdemoSelectHeader {
+  /* Please note: All these selectors are only applied to children of elements with the 'selectdemoSelectHeader' class */ }
+  .selectdemoSelectHeader .demo-header-searchbox {
+    border: none;
+    outline: none;
+    height: 100%;
+    width: 100%;
+    padding: 0; 
+  }
+  .selectdemoSelectHeader .demo-select-header {
+    box-shadow: 0 1px 0 0 rgba(0, 0, 0, 0.1), 0 0 0 0 rgba(0, 0, 0, 0.14), 0 0 0 0 rgba(0, 0, 0, 0.12);
+    padding-left: 10.667px;
+    height: 48px;
+    cursor: pointer;
+    position: relative;
+    display: flex;
+    align-items: center;
+    width: auto; 
+  }
+  .selectdemoSelectHeader md-content._md {
+    max-height: 240px; 
+  }
+</style>
+<div data-ng-controller="CursoController" data-ng-init="findOne(); getProfesores(); getGrupos();" ng-cloak>
+  <md-content>
+  <h3>{{curso.titulo}}</h3>
+    <md-tabs md-dynamic-height md-border-bottom>
+      <md-tab label="curso">
+        <md-content class="md-padding">
+          <form data-ng-submit="createCursoForm.$valid && update()" name="createCursoForm" novalidate>
+            <md-input-container class="md-block">
+              <label>Título</label>
+              <input required name="titulo" ng-model="curso.titulo" >
+              <div ng-messages="createCursoForm.titulo.$error">
+                  <div ng-message="required">Este campo es obligatorio</div>
+              </div>
+            </md-input-container>
+            <md-input-container class="md-block">
+              <label>Descripción</label>
+              <textarea name="descripcion" ng-model="curso.descripcion"></textarea>
+            </md-input-container>
+            <div>
+                <md-datepicker name="fecha_inicio" ng-model="curso.fecha_inicio" md-placeholder="Fecha inicial" required></md-datepicker>
+                <div class="validation-messages" ng-messages="createCursoForm.fecha_inicio.$error">
+                      <div ng-message="valid">Formato de fecha incorrecto</div>
+                      <div ng-message="required">Este campo es obligatorio</div>
+                </div>
+
+                <md-datepicker name="fecha_fin" ng-model="curso.fecha_fin" md-placeholder="Fecha final" required></md-datepicker>
+                <div class="validation-messages" ng-messages="createCursoForm.fecha_fin.$error">
+                      <div ng-message="valid">Formato de fecha incorrecto</div>
+                      <div ng-message="required">Este campo es obligatorio</div>
+                </div>
+            </div>
+            <div layout="row" style="margin-top: 30px;">
+              <md-button class="md-raised" type="submit">Enviar</md-button>
+              <md-button class="md-raised" href="/#!/cursos/">Cancelar</md-button>
+            </div>
+          </form>
+        </md-content>
+      </md-tab>
+      <md-tab label="profesores">
+        <md-content class="md-padding">
+          <md-input-container class="md-block" flex="50">
+            <label>Profesor(es)</label>
+            <md-select name="profesores" ng-model="profesores" md-on-close="asignarProfesor()" data-md-container-class="selectdemoSelectHeader" multiple required>
+                <md-select-header class="demo-select-header">
+                  <input ng-model="searchTerm" type="search" placeholder="Buscar profesor" class="demo-header-searchbox _md-text" />
+                </md-select-header>
+              <md-option ng-value="prof.idprofesor" ng-repeat="prof in selectProfesores | filter:searchTerm" ng-selected="{{ prof.checked }}">{{ prof.nombre + " " + prof.apellidos }}</md-option>
+            </md-select>
+            <div ng-messages="cpform.profesores.$error">
+              <div ng-message="required">Este campo es obligatorio</div>
+            </div>
+          </md-input-container>
+        </md-content>
+      </md-tab>
+      <md-tab label="grupos">
+        <md-content class="md-padding">
+          <md-input-container class="md-block" flex="50">
+            <md-select placeholder="Grupo(s)" name="grupos" ng-model="grupos" md-on-close="asignarGrupo()" data-md-container-class="selectdemoSelectHeader" multiple>
+                <md-select-header class="demo-select-header">
+                  <input ng-model="searchGrupo" type="search" placeholder="Buscar grupo" class="demo-header-searchbox _md-text" />
+                </md-select-header>
+              <md-option ng-value="gr.id" ng-repeat="gr in selectGrupos | filter:searchGrupo" ng-selected="{{ gr.checked }}">{{ gr.nombre }}</md-option>
+            </md-select>
+          </md-input-container>
+        </md-content>
+      </md-tab>
+    </md-tabs>
+  </md-content>
+</div>

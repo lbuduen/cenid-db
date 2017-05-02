@@ -1,0 +1,22 @@
+<md-list data-ng-controller="GrupoController" data-ng-init="find()" ng-cloak>
+    <h3>Grupos</h3>
+    <md-list-item ng-repeat="gr in grupos">
+        <p><a href="/#!/grupos/{{gr.id}}/">{{ gr.nombre }}</a></p>
+        <md-icon md-svg-icon="/img/icons/ic_delete_black_24px.svg" ng-click="remove(gr)" aria-label="Eliminar grupo" style="color:#f00;"></md-icon>
+    </md-list-item>
+</md-list>
+
+<md-fab-speed-dial md-direction="up" md-open="false" class="md-fling">
+  <md-fab-trigger>
+    <md-button class="md-fab md-raised" aria-label="Añadir">
+        <md-tooltip md-direction="right">Grupos</md-tooltip>
+        <md-icon md-svg-icon="/img/icons/ic_people_black_24px.svg"></md-icon>
+    </md-button>
+  </md-fab-trigger>
+  <md-fab-actions>
+    <md-button class="md-fab md-raised md-mini" aria-label="Añadir grupo" href="/#!/grupos/create">
+      <md-tooltip md-direction="right">Añadir grupo</md-tooltip>
+      <md-icon md-svg-icon="/img/icons/ic_add_black_24px.svg"></md-icon>
+    </md-button>
+  </md-fab-actions>
+</md-fab-speed-dial>

@@ -1,0 +1,54 @@
+<div data-ng-controller="GrupoController as gc" layout="column" ng-cloak>
+<h1 class="md-headline">Crear grupo</h1>
+  <md-content layout-padding>
+    <form data-ng-submit="createGrupoForm.$valid && create()" name="createGrupoForm" novalidate>
+      <md-input-container class="md-block">
+        <label>Nombre</label>
+        <input required name="nombre" ng-model="nombre" md-maxlength="40">
+        <div ng-messages="createGrupoForm.nombre.$error">
+            <div ng-message="required">Este campo es obligatorio</div>
+        </div>
+      </md-input-container>
+      <h4>Estudiantes <md-checkbox aria-label="Select All" ng-checked="isChecked()" md-indeterminate="isIndeterminate()" ng-click="toggleAll()"></md-checkbox></h4>
+      <table ng-table="gc.tableParams" export-csv="csv" class="table table-striped">
+        <colgroup>
+          <col width="5%" />
+          <col width="25%" />
+          <col width="15%" />
+          <col width="20%" />
+          <col width="20%" />
+          <col width="15%" />
+        </colgroup>
+          <tr ng-repeat="user in $data">
+              <td style="text-align: center;"><md-checkbox ng-checked="exists(user, estudiantes_grupo)" ng-click="toggle(user, estudiantes_grupo)" aria-label="estudiante {{user.idestudiante}}"></md-checkbox></td>
+              <td title="'Nombre completo'" filter="{ nombre: 'text'}" sortable="'nombre'">
+                  {{user.nombre + " " + user.apellidos}}</td>
+              <td title="'Nivel diagn.'" filter="{ nivel_diagnosticado: 'text'}" sortable="'nivel_diagnosticado'" style="text-align: center;">
+                  {{user.nivel_diagnosticado}}</td>
+              <td title="'Email'" filter="{ email: 'text'}" sortable="'email'">
+                  {{user.email}}</td>
+              <td title="'Área'" filter="{ area: 'text'}" sortable="'area'">
+                {{user.area}}</td>
+              <td style="text-align: center;">
+                <a ng-href="/#!/estudiantes/{{user.idestudiante}}">
+                  <md-tooltip md-direction="top">Ver detalles de usuario</md-tooltip>
+                  <md-icon md-svg-icon="/img/icons/ic_details_black_24px.svg" aria-label="Detalles" style="color:#f00;"></md-icon>
+                </a>
+                <a ng-href="/#!/estudiantes/{{user.idestudiante}}/edit">
+                  <md-tooltip md-direction="top">Editar usuario</md-tooltip>
+                  <md-icon md-svg-icon="/img/icons/ic_mode_edit_black_24px.svg" aria-label="Editar usuario" style="color:#f00;"></md-icon>
+                </a>
+                <md-icon md-svg-icon="/img/icons/ic_delete_black_24px.svg" ng-click="uc.del(user)" aria-label="Eliminar usuario" style="color:#f00;">
+                  <md-tooltip md-direction="top">Eliminar usuario</md-tooltip>
+                </md-icon>
+              </td>
+          </tr>
+      </table>
+
+      <div layout="row" style="margin-top: 30px;">
+          <md-button class="md-raised" type="submit" data-ng-disabled="!estudiantes_grupo.length">Enviar</md-button>
+          <md-button class="md-raised" href="/#!/grupos/">Cancelar</md-button>
+      </div>
+    </form>
+  </md-content>
+</div>

@@ -1,0 +1,63 @@
+<div data-ng-controller="CursoController" data-ng-init="findOne()">
+<md-card>
+    <md-card-title>
+        <md-card-title-text >
+            <h3 data-ng-bind="curso.titulo"></h3>
+        </md-card-title-text>
+    </md-card-title>
+    <md-card-content>
+      <md-tabs md-dynamic-height md-border-bottom>
+        <md-tab label="curso">
+          <md-content class="md-padding">
+            <div><md-icon md-svg-icon="/img/icons/ic_date_range_black_24px.svg" aria-label="Fechas"></md-icon> <i>Fecha inicio:</i> <span data-ng-bind="curso.fecha_inicio | date:'dd/MM/yyyy'"></span> <i>Fecha fin:</i> <span data-ng-bind="curso.fecha_fin | date:'dd/MM/yyyy'"></span></div>
+            <div>
+              <md-icon md-svg-icon="/img/icons/ic_description_black_24px.svg" aria-label="Fechas"></md-icon> <i>Descripción:</i>
+              <p data-ng-bind="curso.descripcion"></p>
+            </div>
+          </md-content>
+        </md-tab>
+        <md-tab label="profesores">
+          <md-content class="md-padding">
+            <md-list data-ng-show="curso.Profesors.length">
+              <md-list-item ng-repeat="prof in curso.Profesors">
+                  <a href="/#!/profesores/{{prof.id}}">{{prof.Usuario.nombreCompleto}}</a>
+              </md-list-item>
+            </md-list>
+          </md-content>
+        </md-tab>
+        <md-tab label="grupos">
+          <md-content class="md-padding">
+            <md-list data-ng-show="curso.Grupos.length">
+              <md-list-item ng-repeat="gr in curso.Grupos">
+                  <a href="/#!/grupos/{{gr.id}}">{{gr.nombre}}</a>
+              </md-list-item>
+            </md-list>
+          </md-content>
+        </md-tab>
+      </md-tabs>
+    </md-card-content>
+</md-card>
+
+<md-fab-speed-dial md-direction="up" md-open="false" class="md-fling" data-ng-show="authentication.user">
+  <md-fab-trigger>
+    <md-button class="md-fab md-raised" aria-label="Añadir">
+        <md-tooltip md-direction="right">Cursos</md-tooltip>
+        <md-icon md-svg-icon="/img/icons/ic_school_black_24px.svg"></md-icon>
+    </md-button>
+  </md-fab-trigger>
+  <md-fab-actions>
+    <md-button class="md-fab md-raised md-mini" aria-label="Añadir curso" href="/#!/cursos/create">
+      <md-tooltip md-direction="right">Añadir curso</md-tooltip>
+      <md-icon md-svg-icon="/img/icons/ic_add_black_24px.svg"></md-icon>
+    </md-button>
+    <md-button class="md-fab md-raised md-mini" aria-label="Editar este curso" data-ng-href="/#!/cursos/{{curso.id}}/edit">
+      <md-tooltip md-direction="right">Editar este curso</md-tooltip>
+      <md-icon md-svg-icon="/img/icons/ic_mode_edit_black_24px.svg" aria-label="Editar este curso" style="color:#f00;"></md-icon>
+    </md-button>
+    <md-button class="md-fab md-raised md-mini" aria-label="Eliminar curso" data-ng-click="remove();">
+      <md-tooltip md-direction="right">Eliminar este curso</md-tooltip>
+      <md-icon md-svg-icon="/img/icons/ic_delete_black_24px.svg" aria-label="Eliminar este curso"></md-icon>
+    </md-button>
+  </md-fab-actions>
+</md-fab-speed-dial>
+</div>

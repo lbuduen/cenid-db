@@ -1,0 +1,40 @@
+<md-card data-ng-controller="ProfesorController" data-ng-init="findOne()">
+    <md-card-title>
+        <md-card-title-text>
+            <span class="md-subhead">Profesor</span>
+            <span class="md-headline" data-ng-bind="usuario.Usuario.nombreCompleto"></span>
+        </md-card-title-text>
+        <md-card-title-media>
+          <div class="md-media-sm card-media"></div>
+        </md-card-title-media>
+    </md-card-title>
+    <md-card-content>
+      <p>
+        <i>Correo:</i> <a href=mailto:"{{usuario.Usuario.email}}" alt="email">{{usuario.Usuario.email}}</a>
+      </p>
+      <p>
+        <i>Área:</i> <span data-ng-bind="usuario.Usuario.area"></span>
+      </p>
+      <i>Currículum:</i><br>
+      <p data-ng-bind="usuario.curriculum"></p>
+    </md-card-content>
+    <md-card-actions layout="row" layout-align="end center">
+        <md-button class="md-primary" href="/#!/profesores/{{usuario.id}}/edit">Editar</md-button>
+        <md-button class="md-warn" data-ng-click="remove();">Eliminar</md-button>
+    </md-card-actions>
+</md-card>
+
+<md-fab-speed-dial md-direction="up" md-open="false" class="md-fling">
+  <md-fab-trigger>
+    <md-button class="md-fab md-raised" aria-label="Añadir">
+        <md-tooltip md-direction="right">Profesores</md-tooltip>
+        <md-icon md-svg-icon="/img/icons/ic_person_outline_black_24px.svg"></md-icon>
+    </md-button>
+  </md-fab-trigger>
+  <md-fab-actions>
+    <md-button class="md-fab md-raised md-mini" aria-label="Añadir profesor" href="/#!/profesores/create">
+      <md-tooltip md-direction="right">Añadir profesor</md-tooltip>
+      <md-icon md-svg-icon="/img/icons/ic_add_black_24px.svg"></md-icon>
+    </md-button>
+  </md-fab-actions>
+</md-fab-speed-dial>

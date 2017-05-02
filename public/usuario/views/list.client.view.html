@@ -1,0 +1,63 @@
+<!-- <md-list data-ng-controller="UsuarioController" data-ng-init="find()" ng-cloak>
+    <md-subheader class="md-no-sticky">Usuarios</md-subheader>
+    <md-list-item ng-repeat="usr in usuarios">
+        <p><a href="/#!/usuarios/{{usr.id}}/edit">{{ usr.nombreCompleto }}</a></p>
+        <md-icon md-svg-icon="/img/icons/ic_delete_black_24px.svg" ng-click="remove(usr)" aria-label="Eliminar usuario" style="color:#f00;"></md-icon>
+    </md-list-item>
+</md-list> -->
+<md-subheader class="md-no-sticky">Usuarios</md-subheader>
+<table data-ng-controller="UsuarioController as uc" ng-table="uc.tableParams" export-csv="csv" class="table table-condensed table-bordered table-striped">
+  <colgroup>
+    <col width="20%" />
+    <col width="25%" />
+    <col width="20%" />
+    <col width="20%" />
+    <col width="15%" />
+  </colgroup>
+    <tr ng-repeat="user in $data">
+        <td title="'Nombre'" filter="{ nombre: 'text'}" sortable="'nombre'">
+            {{user.nombre}}</td>
+        <td title="'Apellidos'" filter="{ apellidos: 'text'}" sortable="'apellidos'">
+            {{user.apellidos}}</td>
+        <td title="'Email'" filter="{ email: 'text'}" sortable="'email'">
+            {{user.email}}</td>
+        <td title="'Área'" filter="{ area: 'text'}" sortable="'area'">
+          {{user.area}}</td>
+        <td style="text-align: center;">
+          <a ng-href="/#!/estudiantes/{{user.id}}">
+            <md-tooltip md-direction="top">Ver detalles de usuario</md-tooltip>
+            <md-icon md-svg-icon="/img/icons/ic_details_black_24px.svg" aria-label="Editar usuario" style="color:#f00;"></md-icon>
+          </a>
+          <a ng-href="/#!/usuarios/{{user.id}}/edit">
+            <md-tooltip md-direction="top">Editar usuario</md-tooltip>
+            <md-icon md-svg-icon="/img/icons/ic_mode_edit_black_24px.svg" aria-label="Editar usuario" style="color:#f00;"></md-icon>
+          </a>
+          <md-icon md-svg-icon="/img/icons/ic_delete_black_24px.svg" ng-click="uc.del(user)" aria-label="Eliminar usuario" style="color:#f00;">
+            <md-tooltip md-direction="top">Eliminar usuario</md-tooltip>
+          </md-icon>
+        </td>
+    </tr>
+</table>
+
+<md-fab-speed-dial md-direction="up" md-open="false" class="md-fling">
+  <md-fab-trigger>
+    <md-button class="md-fab md-raised" aria-label="Añadir">
+        <md-tooltip md-direction="right">Añadir usuario</md-tooltip>
+        <md-icon md-svg-icon="/img/icons/ic_person_add_black_24px.svg"></md-icon>
+    </md-button>
+  </md-fab-trigger>
+  <md-fab-actions>
+    <md-button class="md-fab md-raised md-mini" aria-label="Añadir estudiante" href="/#!/usuarios/create">
+      <md-tooltip md-direction="right">Añadir estudiante</md-tooltip>
+      <md-icon md-svg-icon="/img/icons/ic_person_black_24px.svg"></md-icon>
+    </md-button>
+    <md-button class="md-fab md-raised md-mini" aria-label="Añadir profesor" href="/#!/usuarios/create">
+      <md-tooltip md-direction="right">Añadir profesor</md-tooltip>
+      <md-icon md-svg-icon="/img/icons/ic_person_outline_black_24px.svg"></md-icon>
+    </md-button>
+    <md-button class="md-fab md-raised md-mini" aria-label="Descargar" ng-click="csv.generate()" ng-href="{{ csv.link() }}" download="usuarios.csv">
+      <md-tooltip md-direction="right">Descargar</md-tooltip>
+      <md-icon md-svg-icon="/img/icons/ic_file_download_black_24px.svg"></md-icon>
+    </md-button>
+  </md-fab-actions>
+</md-fab-speed-dial>

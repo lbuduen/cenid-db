@@ -1,0 +1,83 @@
+<div data-ng-controller="UsuarioController" layout="column" ng-cloak>
+<h1 class="md-headline">Crear {{tipo}}</h1>
+  <md-content layout-padding>
+    <form data-ng-submit="createUsrForm.$valid && create()" name="createUsrForm" novalidate>
+      <md-input-container class="md-block">
+        <label>Nombre</label>
+        <input required name="nombre" ng-model="nombre" md-maxlength="40">
+        <div ng-messages="createUsrForm.nombre.$error">
+            <div ng-message="required">Este campo es obligatorio</div>
+        </div>
+      </md-input-container>
+      <md-input-container class="md-block">
+        <label>Apellidos</label>
+        <input required name="apellidos" ng-model="apellidos" md-maxlength="70">
+        <div ng-messages="createUsrForm.apellidos.$error">
+            <div ng-message="required">Este campo es obligatorio</div>
+        </div>
+      </md-input-container>
+      <md-input-container class="md-block">
+        <label>Email</label>
+        <input type="email" required name="email" ng-model="email" md-maxlength="40">
+        <div ng-messages="createUsrForm.email.$error">
+            <div ng-message="required">Este campo es obligatorio</div>
+            <div ng-message="email">Formato de correo incorrecto</div>
+        </div>
+      </md-input-container>
+      <md-input-container class="md-block">
+        <label>Área</label>
+        <input required name="area" ng-model="area" md-maxlength="100">
+        <div ng-messages="createUsrForm.area.$error">
+            <div ng-message="required">Este campo es obligatorio</div>
+        </div>
+      </md-input-container>
+      <!--<md-input-container class="md-block">
+        <label>Clave</label>
+        <input type="password" required name="clave" ng-model="clave">
+        <div ng-messages="createUsrForm.clave.$error">
+            <div ng-message="required">Este campo es obligatorio</div>
+        </div>
+      </md-input-container>-->
+      <div class="md-block" layout="row">
+        <md-radio-group ng-model="tipo">
+          <md-radio-button value="estudiante" class="md-primary">Estudiante</md-radio-button>
+          <md-radio-button value="profesor" class="md-primary">Profesor</md-radio-button>
+        </md-radio-group>
+      </div>
+      <div ng-show="tipo=='estudiante'" class="md-block">
+        <md-input-container class="md-block">
+          <label>Nivel diagnosticado</label>
+          <md-select name="nivel_diagnosticado" ng-model="nivel_diagnosticado" md-on-open="get_niveles('d')">
+            <md-option ng-value="nivel" ng-repeat="nivel in dniveles">{{nivel.nombre}}</md-option>
+          </md-select>
+          <!-- <div ng-messages="createUsrForm.clave.$error">
+              <div ng-message="required">Este campo es obligatorio</div>
+          </div> -->
+        </md-input-container>
+        <md-input-container class="md-block">
+          <label>Nivel acreditado</label>
+          <md-select name="nivel_acreditado" ng-model="nivel_acreditado" md-on-open="get_niveles('a')">
+            <md-option ng-value="nivel" ng-repeat="nivel in aniveles">{{nivel.nombre}}</md-option>
+          </md-select>
+          <!-- <div ng-messages="createUsrForm.clave.$error">
+              <div ng-message="required">Este campo es obligatorio</div>
+          </div> -->
+        </md-input-container>
+        <md-input-container class="md-block">
+          <label>Observaciones</label>
+          <textarea name="observaciones" ng-model="observaciones"></textarea>
+        </md-input-container>
+      </div>
+      <div ng-show="tipo=='profesor'" class="md-block">
+        <md-input-container class="md-block">
+          <label>Currículum</label>
+          <textarea name="curriculum" ng-model="curriculum"></textarea>
+        </md-input-container>
+      </div>
+      <div layout="row" style="margin-top: 30px;">
+          <md-button class="md-raised" type="submit">Enviar</md-button>
+          <md-button class="md-raised" href="/#!/usuarios/">Cancelar</md-button>
+      </div>
+    </form>
+  </md-content>
+</div>

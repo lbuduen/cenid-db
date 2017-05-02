@@ -1,0 +1,22 @@
+<div data-ng-controller="NivelController" ng-init="findOne()" layout="column" ng-cloak>
+<h1 class="md-headline">Editar nivel</h1>
+  <md-content layout-padding>
+    <form data-ng-submit="updNivelForm.$valid && update()" name="updNivelForm" novalidate>
+      <md-input-container class="md-block">
+        <label>Nombre</label>
+        <input required name="nombre" ng-model="nivel.nombre" md-maxlength="40">
+        <div ng-messages="updNivelForm.nombre.$error">
+            <div ng-message="required">Este campo es obligatorio</div>
+        </div>
+      </md-input-container>
+      <md-input-container class="md-block">
+        <label>Descripción</label>
+        <textarea name="descripcion" ng-model="nivel.descripcion"></textarea>
+      </md-input-container>
+      <div layout="row" style="margin-top: 30px;">
+          <md-button class="md-raised" type="submit">Enviar</md-button>
+          <md-button class="md-raised" href="/#!/niveles/">Cancelar</md-button>
+      </div>
+    </form>
+  </md-content>
+</div>
