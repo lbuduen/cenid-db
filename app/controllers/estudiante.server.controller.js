@@ -42,7 +42,7 @@ exports.list = function (req, res) {
     if (req.query.grupo) {
         sql += "WHERE e.grupo_id IS NULL ";
     }
-    sql += "LIMIT :offset,:limit";
+    sql += "ORDER BY u.apellidos LIMIT :offset,:limit";
     models.sequelize.query(sql, { replacements: { "offset": offset, "limit": limit }, type: models.sequelize.QueryTypes.SELECT })
         .then(function (users) {
             res.json(users);
@@ -157,10 +157,10 @@ exports.importCSV = function (req, res) {
             if (count++) {
                 var datos = {
                     Usuario: {
-                        nombre: csvrow[0],
-                        apellidos: csvrow[1],
-                        email: csvrow[2],
-                        area: csvrow[3],
+                        nombre: csvrow[0].trim(),
+                        apellidos: csvrow[1].trim(),
+                        email: csvrow[2].trim(),
+                        area: csvrow[3].trim(),
                     }
                 };
                 estudiantes.push(datos);
