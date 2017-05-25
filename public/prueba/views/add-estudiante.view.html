@@ -1,0 +1,54 @@
+<md-dialog aria-label="Añadir estudiantes" ng-cloak>
+  <form>
+    <md-toolbar>
+      <div class="md-toolbar-tools">
+        <h2>Añadir estudiante</h2>
+        <span flex></span>
+        <md-button class="md-icon-button" ng-click="cancel()">
+          <md-icon md-svg-src="img/icons/ic_close_black_24px.svg" aria-label="Close dialog"></md-icon>
+        </md-button>
+      </div>
+    </md-toolbar>
+    <md-dialog-content>
+      <div class="md-dialog-content" data-ng-controller="PruebaController as gc">
+        <md-input-container class="md-block">
+          <label>Locales</label>
+          <md-select ng-model="locales_prueba" name="locales_prueba" multiple required>
+            <md-option ng-value="local" ng-repeat="local in locales | filter: {disponibilidad: 1 }">{{local.ubicacion}} ({{local.capacidad}})</md-option>
+          </md-select>
+        </md-input-container>
+        <table ng-table="gc.tableNotParticipants" export-csv="csv" class="table table-striped">
+          <colgroup>
+            <col width="5%" />
+            <col width="30%" />
+            <col width="15%" />
+            <col width="20%" />
+            <col width="30%" />
+          </colgroup>
+          <tr ng-repeat="user in $data">
+            <td style="text-align: center;">
+              <md-checkbox ng-checked="exists(user, $root.estudiantes_prueba)" ng-click="toggle(user, $root.estudiantes_prueba)"
+                aria-label="estudiante {{user.idestudiante}}"></md-checkbox>
+            </td>
+            <td title="'Nombre completo'" filter="{ nombre: 'text'}" sortable="'nombre'">
+              {{user.nombre + " " + user.apellidos}}</td>
+            <td title="'Nivel diagn.'" filter="{ nivel_diagnosticado: 'text'}" sortable="'nivel_diagnosticado'" style="text-align: center;">
+              {{user.nivel_diagnosticado}}</td>
+            <td title="'Email'" filter="{ email: 'text'}" sortable="'email'">
+              {{user.email}}</td>
+            <td title="'Área'" filter="{ area: 'text'}" sortable="'area'">
+              {{user.area}}</td>
+          </tr>
+        </table>
+      </div>
+    </md-dialog-content>
+    <md-dialog-actions layout="row">
+      <md-button ng-click="answer('add')">
+        Aceptar
+      </md-button>
+      <md-button ng-click="cancel()">
+        Cancelar
+      </md-button>
+    </md-dialog-actions>
+  </form>
+</md-dialog>

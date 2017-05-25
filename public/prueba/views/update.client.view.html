@@ -1,34 +1,82 @@
-<div data-ng-controller="PruebaController" data-ng-init="findOne();loadNiveles()" layout="column" ng-cloak>
-<h1 class="md-headline">Editar prueba</h1>
-  <md-content layout-padding>
-    <form data-ng-submit="updPruebaForm.$valid && update()" name="updPruebaForm" novalidate>
-      <md-input-container class="md-block">
-        <label>Título</label>
-        <input required name="titulo" ng-model="prueba.titulo" >
-        <div ng-messages="updPruebaForm.titulo.$error">
-            <div ng-message="required">Este campo es obligatorio</div>
-        </div>
-      </md-input-container>
-      <md-input-container class="md-block">
-        <label>Nivel(es)</label>
-        <md-select placeholder="Nivel(es)" ng-model="prueba.niveles_id" style="min-width: 200px;" multiple>
-          <md-option ng-value="nivel.id" ng-selected="{{nivel.checked}}" ng-repeat="nivel in nivel_select">{{nivel.nombre}}</md-option>
-        </md-select>
-      </md-input-container>
-      <md-datepicker name="fecha" ng-model="prueba.fecha" md-placeholder="Fecha" required></md-datepicker>
-      <div class="validation-messages" ng-messages="updPruebaForm.fecha.$error">
-        <div ng-message="valid">Formato de fecha incorrecto</div>
-        <div ng-message="required">Este campo es obligatorio</div>
-      </div>
-      <md-input-container class="md-block">
-        <label>Código</label>
-        <input required name="codigo" ng-model="prueba.codigo">
-      </md-input-container>
+<div data-ng-controller="PruebaController" data-ng-init="findOne();loadNiveles();loadHabilidades();findLocales();">
+  <md-card>
+    <md-card-title>
+      <md-card-title-text>
+        <span class="md-headline" data-ng-bind="prueba.titulo"></span>
+      </md-card-title-text>
+    </md-card-title>
+    <md-card-content>
+      <md-tabs md-dynamic-height md-border-bottom>
+        <md-tab label="prueba">
+          <md-content class="md-padding">
+            <md-input-container class="md-block">
+              <label>Título</label>
+              <input required name="titulo" ng-model="prueba.titulo">
+              <div ng-messages="updPruebaForm.titulo.$error">
+                <div ng-message="required">Este campo es obligatorio</div>
+              </div>
+            </md-input-container>
 
-      <div layout="row" style="margin-top: 30px;">
-          <md-button class="md-raised" type="submit">Enviar</md-button>
-          <md-button class="md-raised" href="/#!/pruebas/">Cancelar</md-button>
-      </div>
-    </form>
-  </md-content>
+            <md-select placeholder="Habilidad(es)" ng-model="habilidades_id" style="min-width: 200px;" multiple>
+              <md-option ng-value="hab.id" ng-selected="{{hab.checked}}" ng-repeat="hab in habilidad_select">{{hab.nombre}}</md-option>
+            </md-select>
+
+            <md-select placeholder="Nivel(es)" ng-model="prueba.niveles_id" style="min-width: 200px;" multiple>
+              <md-option ng-value="nivel.id" ng-selected="{{nivel.checked}}" ng-repeat="nivel in nivel_select">{{nivel.nombre}}</md-option>
+            </md-select>
+
+            <div style="margin-bottom:45px">
+              <md-datepicker name="fecha" ng-model="prueba.fecha" md-placeholder="Fecha" required></md-datepicker>
+              <div class="validation-messages" ng-messages="updPruebaForm.fecha.$error">
+                <div ng-message="valid">Formato de fecha incorrecto</div>
+                <div ng-message="required">Este campo es obligatorio</div>
+              </div>
+            </div>
+          </md-content>
+        </md-tab>
+        <md-tab label="estudiantes ({{count}}/{{ estudiantes.length }})">
+          <md-content class="md-padding">
+            <div when-scrolled="loadMore()" style="height: 500px; overflow: auto">
+              <table class="table table-hover table-striped" id="estudiantes_prueba" data-ng-show="prueba_estudiantes.length">
+                <thead class="thead-default">
+                  <tr>
+                    <th>Nombre completo</th>
+                    <th>Email</th>
+                    <th ng-show="display == 0">Estado</th>
+                    <th ng-show="display == 0">Local</th>
+                    <th data-ng-show="display == 1 || display == 2" data-ng-repeat="h in prueba.habilidades">{{h.nombre}}</th>
+                    <th></th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr data-ng-repeat="est in prueba_estudiantes track by $index">
+                    <td><a href="/#!/estudiantes/{{est.idestudiante}}">{{est.nombre_completo}}</a></td>
+                    <td><a href="mailto:{{est.email}}">{{est.email}}</a></td>
+                    <td data-ng-show="display == 0">{{est.estado_prueba | estado_prueba}}</td>
+                    <td data-ng-show="display == 0"><a href="/#!/locales/{{est.idlocal}}">{{est.ubicacion}}</a></td>
+                    <td data-ng-show="display == 1" data-ng-repeat="n in est.nota">
+                      {{n.nota}}
+                    </td>
+                    <td data-ng-show="display == 2" data-ng-repeat="h in prueba.habilidades">
+                      <select data-habilidad="{{h.id}}" data-estudiante="{{est.idestudiante}}" data-prueba="{{prueba.idprueba}}">
+                        <option ng-value="n" ng-repeat="n in notas">{{n}}</option>
+                      </select>
+                    </td>
+                    <td>
+                      <md-icon md-svg-icon="/img/icons/ic_remove_circle_outline_black_24px.svg" data-ng-click="removeEstudiante($index, est.id, $event)" aria-label="Eliminar del examen"><md-tooltip md-direction="top">Eliminar del examen</md-tooltip></md-icon>
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </md-content>
+        </md-tab>
+      </md-tabs>
+    </md-card-content>
+    <md-card-actions layout="row" layout-align="end center">
+      <md-button class="md-raised" data-ng-click="addEstudiante($event)">Añadir estudiantes</md-button>
+      <md-button class="md-raised" data-ng-click="">Guardar</md-button>
+      <md-button class="md-raised" data-ng-click="">Cancelar</md-button>
+    </md-card-actions>
+  </md-card>
 </div>

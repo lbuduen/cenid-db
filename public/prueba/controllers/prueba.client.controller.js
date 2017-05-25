@@ -6,6 +6,9 @@ angular.module('prueba').controller('PruebaController', ['$scope', '$rootScope',
         $scope.codigo = Math.random().toString(36).substr(2, 10);
 
         $rootScope.escala = '';
+        $rootScope.estudiantes_prueba = []; // Holds ids of students to be added to the test
+        $rootScope.listado = []; // Holds the students (object) to be added to the test
+
         $scope.notas = [];
         /*
             keep track of what to display in the read.client.view
@@ -47,6 +50,29 @@ angular.module('prueba').controller('PruebaController', ['$scope', '$rootScope',
                     return Estudiantes.query({
                         page: params.page(),
                         per_page: params.count(),
+                    }).$promise.then(function (data) {
+                        if (data.length) {
+                            data.forEach(elem => {
+                                $scope.estudiantes.push(elem.idestudiante);
+                            });
+                            params.total(data[0].total); // recal. page nav controls
+                            var ordered = params.sorting() ? $filter('orderBy')(data, params.orderBy()) : data;
+                            return ordered;
+                        }
+                    });
+                }
+            });
+
+        self.tableNotParticipants = new NgTableParams({
+            count: pag_per_page,
+            sorting: { fecha: "asc" }
+        }, {
+                // counts: [1,2],
+                getData: function (params) {
+                    return Estudiantes.query({
+                        page: params.page(),
+                        per_page: params.count(),
+                        idprueba: $routeParams.idprueba
                     }).$promise.then(function (data) {
                         if (data.length) {
                             data.forEach(elem => {
@@ -141,7 +167,8 @@ angular.module('prueba').controller('PruebaController', ['$scope', '$rootScope',
             }).$promise.then(function (pr) {
                 $scope.prueba = pr;
                 $scope.prueba.fecha = new Date(pr.fecha);
-                $scope.prueba.niveles_id = $scope.prueba.niveles.map(_.property('idnivel'));
+                $scope.prueba.niveles_id = $scope.prueba.niveles.map(_.property('id'));
+                $scope.prueba.habilidades_id = $scope.prueba.habilidades.map(_.property('id'));
                 $scope.estudiantes = pr.Estudiantes;
                 /*
                 * @var
@@ -257,8 +284,15 @@ angular.module('prueba').controller('PruebaController', ['$scope', '$rootScope',
 
         $scope.loadHabilidades = function () {
             var url = '/api/pruebas/get/habilidades';
-            $http.get(url).then(h => {
-                $scope.habilidad_select = h.data;
+            $http.get(url).then(habilidades => {
+                if ($scope.prueba) {
+                    habilidades.data.forEach(function (h) {
+                        h.checked = false;
+                        if (_.find($scope.prueba.habilidades, o => o.id == h.id))
+                            h.checked = true;
+                    });
+                }
+                $scope.habilidad_select = habilidades.data;
             });
         };
 
@@ -340,6 +374,71 @@ angular.module('prueba').controller('PruebaController', ['$scope', '$rootScope',
             }
         };
 
+        $scope.removeEstudiante = function (index, id, event) {
+            if ($scope.authentication.user) {
+                /*if ($scope.grupo.Estudiantes.length > 1) {
+                    $scope.grupo.$removeEstudiante({ idestudiante: id }, function () {
+                        $scope.grupo.Estudiantes.splice(index, 1);
+                    });
+                }
+                else {
+                    var confirm = $mdDialog.confirm()
+                        .title('¿Eliminar estudiante?')
+                        .textContent('Si elimina todos los estudiantes del grupo, se eliminará también el grupo')
+                        .ariaLabel('Eliminar estudiante')
+                        .targetEvent(event)
+                        .ok('Eliminar')
+                        .cancel('Cancelar');
+                    $mdDialog.show(confirm).then(function () {
+                        $scope.remove();
+                    }, function () {
+                        // body...
+                    });
+                }*/
+            }
+            else {
+                $location.path('grupos');
+            }
+        };
+
+        $scope.addEstudiante = function (evt) {
+            if ($scope.authentication.user) {
+                $mdDialog.show({
+                    controller: DialogController,
+                    templateUrl: 'prueba/views/add-estudiante.view.html',
+                    parent: angular.element(document.body),
+                    targetEvent: evt,
+                    clickOutsideToClose: true
+                    // fullscreen: useFullScreen
+                })
+                    .then(answer => {
+                        if (answer == 'add') {
+                            var url = '/api/grupos/' + $scope.grupo.id;
+                            $http.put(url, { nombre: $scope.grupo.nombre, estudiantes: $rootScope.estudiantes_grupo_edit })
+                                .then(function (res) {
+                                    $rootScope.listado.forEach(elem => {
+                                        $scope.grupo.Estudiantes.push(elem);
+                                    });
+
+                                    var msg = $mdToast.simple()
+                                        .textContent('Se ha(n) añadido ' + $rootScope.estudiantes_grupo_edit.length + ' estudiante(s) al examen')
+                                        .position('top right')
+                                        .hideDelay(3000);
+                                    $mdToast.show(msg);
+                                }, function (errRes) {
+
+                                });
+                        }
+                    }, function () {
+                        $rootScope.estudiantes_prueba = [];
+                        $rootScope.listado = [];
+                    });
+            }
+            else {
+                $location.path('pruebas');
+            }
+        };
+
         $scope.download = function () {
             var niveles = $scope.prueba.niveles.map(function (nivel) {
                 return nivel.nombre;
@@ -394,9 +493,12 @@ angular.module('prueba').controller('PruebaController', ['$scope', '$rootScope',
             var idx = list.indexOf(item.idestudiante);
             if (idx > -1) {
                 list.splice(idx, 1);
+                $rootScope.listado.splice(idx, 1);
             }
             else {
                 list.push(item.idestudiante);
+                var usr = { Usuario: item.toJSON() };
+                $rootScope.listado.push(usr);
             }
         };
         $scope.exists = function (item, list) {

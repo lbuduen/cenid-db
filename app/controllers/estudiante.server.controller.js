@@ -42,7 +42,10 @@ exports.list = function (req, res) {
     if (req.query.grupo) {
         sql += "WHERE e.grupo_id IS NULL ";
     }
-    sql += "ORDER BY u.apellidos LIMIT :offset,:limit";
+    if (req.query.idprueba) {
+        sql += "LEFT OUTER JOIN estudianteprueba ep ON e.id = ep.estudiante_id where e.id NOT IN (SELECT estudiante_id FROM estudianteprueba WHERE prueba_id =" + req.query.idprueba + ") ";
+    }
+    sql += "ORDER BY u.created_at DESC, u.apellidos LIMIT :offset,:limit";
     models.sequelize.query(sql, { replacements: { "offset": offset, "limit": limit }, type: models.sequelize.QueryTypes.SELECT })
         .then(function (users) {
             res.json(users);
@@ -160,7 +163,7 @@ exports.importCSV = function (req, res) {
                         nombre: csvrow[0].trim(),
                         apellidos: csvrow[1].trim(),
                         email: csvrow[2].trim(),
-                        area: csvrow[3].trim(),
+                        area: csvrow[3].trim()
                     }
                 };
                 estudiantes.push(datos);

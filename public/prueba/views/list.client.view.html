@@ -1,21 +1,10 @@
 <h3>Pruebas</h3>
 <table data-ng-controller="PruebaController as prc" ng-table="prc.tableParams" export-csv="csv" class="table table-condensed table-bordered table-striped">
-  <colgroup>
-    <col width="25%" />
-    <col width="20%" />
-    <col width="15%" />
-    <col width="10%" />
-    <col width="10%" />
-  </colgroup>
     <tr ng-repeat="prueba in $data">
         <td title="'Título'" filter="{ titulo: 'text'}" sortable="'titulo'">
             {{prueba.titulo}}</td>
-        <td title="'Lugar'" filter="{ lugar: 'text'}" sortable="'lugar'">
-            {{prueba.lugar}}</td>
         <td title="'Fecha'" filter="{ fecha: 'text'}" sortable="'fecha'">
             {{prueba.fecha | date:'dd/MM/yyyy'}}</td>
-        <td title="'Código'" filter="{ codigo: 'text'}" sortable="'codigo'">
-            {{prueba.codigo}}</td>
         <td style="text-align: center;">
           <a ng-href="/#!/pruebas/{{prueba.idprueba}}">
             <md-tooltip md-direction="top">Ver detalles de la prueba</md-tooltip>
